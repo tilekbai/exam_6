@@ -27,3 +27,13 @@ def add_guest_view(request):
 
         guests = Guestbook.objects.filter(status='active').order_by('-create_time')
         return render(request, 'index.html', context={'guests': guests})
+
+def re_guest_view(request):
+    if request.method == "GET":
+        return render(request, 're_guest.html')
+    if request.method == "POST":
+        guest_id = request.GET.get('id')
+        guest = Guestbook.objects.get(id=guest_id)
+        guest.delete()
+        guests = Guestbook.objects.filter(status='active').order_by('-create_time')
+        return render(request, 'index.html', context={'guests': guests})
