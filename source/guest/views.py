@@ -8,7 +8,7 @@ from guest.models import Guestbook
 from django.shortcuts import render
 
 def index_view(request):
-    guests = Guestbook.objects.all()
+    guests = Guestbook.objects.filter(status='active').order_by('-create_time')
     return render(request, 'index.html', context={'guests': guests})
 
 def add_guest_view(request):
@@ -25,5 +25,5 @@ def add_guest_view(request):
             text=text,
         )
 
-        guests = Guestbook.objects.all()
+        guests = Guestbook.objects.filter(status='active').order_by('-create_time')
         return render(request, 'index.html', context={'guests': guests})
